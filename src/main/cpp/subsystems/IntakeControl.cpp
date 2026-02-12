@@ -63,5 +63,16 @@ void IntakeControl::SetIntakePosition(units::angle::turn_t Angle)
 }
 
 frc2::CommandPtr IntakeControl::SetIntakeSpeed(units::turns_per_second_t speed) {
-    m_IntakeMotor.SetControl(m_velocityVoltage.WithVelocity(speed).WithSlot(0));
+    return StartEnd(
+    [this, speed] {
+        m_IntakeMotor.SetControl(
+            m_velocityVoltage.WithVelocity(speed).WithSlot(0)
+        );
+    },
+    [this] {
+        m_IntakeMotor.SetControl(
+            m_velocityVoltage.WithVelocity(0_tps).WithSlot(0)
+        );
+    }
+    );
 }
