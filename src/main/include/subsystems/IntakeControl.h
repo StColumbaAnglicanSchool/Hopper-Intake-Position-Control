@@ -24,7 +24,6 @@ class IntakeControl : public frc2::SubsystemBase {
   void Periodic() override;
 
   void SetIntakePosition(units::angle::turn_t Angle);
-  
   frc2::CommandPtr SetIntakeSpeed(units::turns_per_second_t speed);
 
  private:

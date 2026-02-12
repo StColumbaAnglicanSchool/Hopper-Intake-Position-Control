@@ -8,6 +8,8 @@
 #include <frc2/command/button/Trigger.h>
 #include <frc2/command/WaitCommand.h>
 #include <frc2/command/PrintCommand.h>
+#include <iostream>
+#include <frc2/command/Commands.h>
 
 #include <frc2/command/RunCommand.h>
 
@@ -51,7 +53,9 @@ frc2::CommandPtr RobotContainer::GetAutonomousCommand() {
 void RobotContainer::ConfigureBindings() {
   // Configure your trigger bindings here
   frc2::JoystickButton(&m_driverController, 7).WhileTrue(m_intakeSS.SetIntakeSpeed(30_tps));
-  
+  // frc2::JoystickButton(&m_driverController, 7).OnTrue(frc2::cmd::RunOnce([] {}));
+
+
   m_intakeSS.SetDefaultCommand(
     frc2::RunCommand(
       [this] {
@@ -61,4 +65,4 @@ void RobotContainer::ConfigureBindings() {
       }, {&m_intakeSS}
     )
   );
-}
+} 

@@ -6,12 +6,28 @@
 #include <frc2/command/CommandPtr.h>
 #include <frc2/command/FunctionalCommand.h>
 #include <iostream>
+#include <frc2/command/Commands.h>
+
 
 using namespace ctre::phoenix6;
 
 IntakeControl::IntakeControl()
 {
     ctre::phoenix6::configs::TalonFXConfiguration turretConfig{};
+    ctre::phoenix6::configs::TalonFXConfiguration intakemotorConfig{};
+
+    intakemotorConfig.MotorOutput.Inverted =
+    signals::InvertedValue::Clockwise_Positive;
+    
+    ctre::phoenix6::configs::TalonFXConfiguration intakeConfig{};
+
+    intakeConfig.Slot0.kS = 0.0;
+    intakeConfig.Slot0.kV = 0.12;   
+    intakeConfig.Slot0.kA = 0.0;
+
+    intakeConfig.Slot0.kP = 0.0;    
+    intakeConfig.Slot0.kI = 0.0;
+    intakeConfig.Slot0.kD = 0.0;
 
     // Populate the turretConfig object
     turretConfig.MotorOutput.Inverted =
@@ -42,6 +58,8 @@ IntakeControl::IntakeControl()
     for (int i = 0; i < 5; ++i)
     {
         status = m_IntakePosMotor.GetConfigurator().Apply(turretConfig);
+        status = m_IntakeMotor.GetConfigurator().Apply(intakeConfig);
+
         if (status.IsOK())
             break;
     }
@@ -62,17 +80,32 @@ void IntakeControl::SetIntakePosition(units::angle::turn_t Angle)
     m_IntakePosMotor.SetControl(m_motionMagicControl.WithPosition(Angle).WithSlot(0));
 }
 
+
+
+// frc2::CommandPtr IntakeControl::SetIntakeSpeed(units::turns_per_second_t speed) {
+//   return StartEnd(
+//       [this] {
+//         m_IntakeMotor.SetControl(m_IntakeMotor.)
+//       },
+
+//       [this] {
+
+//       });
+// };
 frc2::CommandPtr IntakeControl::SetIntakeSpeed(units::turns_per_second_t speed) {
-    return StartEnd(
-    [this, speed] {
-        m_IntakeMotor.SetControl(
-            m_velocityVoltage.WithVelocity(speed).WithSlot(0)
-        );
-    },
-    [this] {
-        m_IntakeMotor.SetControl(
-            m_velocityVoltage.WithVelocity(0_tps).WithSlot(0)
-        );
-    }
+    return frc2::cmd::StartEnd(
+        [this, speed] {
+            m_IntakeMotor.SetControl(
+                m_velocityVoltage.WithVelocity(speed).WithSlot(0)
+            );
+            // std::cout << "Intake Motor running\n";
+        },
+        [this] {
+            m_IntakeMotor.SetControl(
+                m_velocityVoltage.WithVelocity(0_tps).WithSlot(0)
+            );
+            // std::cout << "Intake Motor stopped\n";
+        },
+        {this}
     );
 }
