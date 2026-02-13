@@ -59,7 +59,7 @@ void RobotContainer::ConfigureBindings() {
   m_intakeSS.SetDefaultCommand(
     frc2::RunCommand(
       [this] {
-        double throttle = m_driverController.GetThrottle();
+        double throttle = -m_driverController.GetThrottle();
         double scaled = ((throttle+1)/2)*(1.2);
         m_intakeSS.SetIntakePosition(scaled*1_tr);
       }, {&m_intakeSS}

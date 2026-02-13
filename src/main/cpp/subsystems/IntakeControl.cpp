@@ -31,9 +31,9 @@ IntakeControl::IntakeControl()
 
     // Populate the turretConfig object
     turretConfig.MotorOutput.Inverted =
-        signals::InvertedValue::Clockwise_Positive;
+        signals::InvertedValue::CounterClockwise_Positive;
 
-    turretConfig.Feedback.SensorToMechanismRatio = 9;
+    turretConfig.Feedback.SensorToMechanismRatio = 44;
 
     turretConfig.MotionMagic.MotionMagicCruiseVelocity = 100_tps;
     turretConfig.MotionMagic.MotionMagicAcceleration = 50_tr_per_s_sq;
