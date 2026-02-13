@@ -33,11 +33,11 @@ IntakeControl::IntakeControl()
     turretConfig.MotorOutput.Inverted =
         signals::InvertedValue::CounterClockwise_Positive;
 
-    turretConfig.Feedback.SensorToMechanismRatio = 44;
+    turretConfig.Feedback.SensorToMechanismRatio = 36;
 
     turretConfig.MotionMagic.MotionMagicCruiseVelocity = 100_tps;
-    turretConfig.MotionMagic.MotionMagicAcceleration = 50_tr_per_s_sq;
-    turretConfig.MotionMagic.MotionMagicJerk = 500_tr_per_s_cu;
+    turretConfig.MotionMagic.MotionMagicAcceleration = 600_tr_per_s_sq;
+    // turretConfig.MotionMagic.MotionMagicJerk = 1500_tr_per_s_cu;
 
     turretConfig.Slot0.kS = 0.1;
     turretConfig.Slot0.kV = 0.12;
@@ -46,8 +46,8 @@ IntakeControl::IntakeControl()
     turretConfig.Slot0.kI = 0;
     turretConfig.Slot0.kD = 0;
 
-    turretConfig.Voltage.PeakForwardVoltage = 8_V;
-    turretConfig.Voltage.PeakReverseVoltage = -8_V;
+    turretConfig.Voltage.PeakForwardVoltage = 12_V;
+    turretConfig.Voltage.PeakReverseVoltage = -12_V;
 
     // Create a StatusCode Object so we can collect Error information
     // if applying the config object fails
